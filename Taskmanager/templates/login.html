@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Task Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background: url("{% static 'images/task_bg.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* Removed blur */
+            background: rgba(255, 255, 255, 0.25); /* lighter transparent white overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s ease-in-out;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .motivation-message {
+            background: rgba(0, 123, 255, 0.15);
+            color: #004080;
+            padding: 1rem 2rem;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 45px 30px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            animation: slideUp 1s ease-out, glowPulse 4s ease-in-out infinite alternate;
+        }
+
+        .login-title {
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            animation: fadeInText 1.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .footer-text {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% { opacity: 0 }
+            100% { opacity: 1 }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 25px rgba(0, 123, 255, 1);
+            }
+        }
+
+        @keyframes glowPulse {
+            0% {
+                box-shadow: 0 0 15px rgba(0, 123, 255, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 30px rgba(0, 123, 255, 0.7);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <!-- Motivational Message -->
+        <div class="motivation-message">
+            💡 Ready to crush your tasks? Log in and make progress today!
+        </div>
+
+        <!-- Login Form -->
+        <div class="login-container text-center">
+            <h2 class="login-title">Task Manager Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+            <div class="footer-text">
+                Don't have an account? <a href="{% url 'register' %}">Register here</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

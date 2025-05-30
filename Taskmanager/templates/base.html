@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Task Manager{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            background: url('{% static "images/task_bg2.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .overlay {
+    position: relative;
+    background: rgba(255, 255, 255, 0.2);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: inset 0 0 60px 15px rgba(255, 255, 255, 0.15);
+    animation: gradientGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes gradientGlow {
+    0% {
+        box-shadow: inset -100px 0 100px 40px rgba(255, 255, 255, 0.15);
+    }
+    50% {
+        box-shadow: inset 100px 0 100px 60px rgba(255, 255, 255, 0.3);
+    }
+    100% {
+        box-shadow: inset -100px 0 100px 40px rgba(255, 255, 255, 0.15);
+    }
+}
+
+        .overlay::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+            background-size: 1000px 100%;
+            animation: shimmer 4s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .navbar {
+            backdrop-filter: saturate(180%) blur(10px);
+            position: relative;
+            z-index: 10;
+        }
+
+        .motivation-banner {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: rgba(0, 123, 255, 0.15);
+            color: #004080;
+            padding: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+            margin: 1rem 2rem;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 25px rgba(0, 123, 255, 1);
+            }
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 650px;
+            animation: slideUp 0.8s ease-in-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Task Manager</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ms-auto">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="/logout/">Logout</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="/login/">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/register/">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Motivational Message -->
+        <div class="motivation-banner">
+            Welcome back! Login and complete your tasks — YOUR FUTURE DEPENDS ON WHAT YOU DO TODAY!!.
+        </div>
+
+        <!-- Page Content -->
+        <div class="main-content">
+            <div class="content-box">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
